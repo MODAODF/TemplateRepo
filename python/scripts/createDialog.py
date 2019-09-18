@@ -23,7 +23,8 @@ def createDgTemplate(*args, **kwargs):
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
     dialog = dp.createDialog("vnd.sun.star.script:TemplatesMarket.TemplateList?location=application")
-    dialog.execute()
+    #dialog.execute()
+    dialog.EnableVisible = True
     dialog.dispose()
 
 

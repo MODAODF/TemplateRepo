@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="TemplateList" dlg:left="134" dlg:top="56" dlg:width="344" dlg:height="258" dlg:closeable="true" dlg:moveable="true" dlg:title="TemplateList">
- <dlg:styles>
-  <dlg:style dlg:style-id="0" dlg:border="simple"/>
- </dlg:styles>
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="TemplateList" dlg:left="134" dlg:top="56" dlg:width="401" dlg:height="306" dlg:closeable="true" dlg:moveable="true" dlg:title="TemplateList">
  <dlg:bulletinboard>
-  <dlg:button dlg:id="Get" dlg:tab-index="1" dlg:left="277" dlg:top="61" dlg:width="44" dlg:height="20" dlg:value="Get">
-   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$syncTemplates?language=Python&amp;location=user:uno_packages" script:language="Script"/>
-  </dlg:button>
-  <dlg:button dlg:id="Cancel" dlg:tab-index="3" dlg:left="277" dlg:top="202" dlg:width="44" dlg:height="20" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:button dlg:id="Setting" dlg:tab-index="4" dlg:left="277" dlg:top="115" dlg:width="44" dlg:height="20" dlg:value="Setting">
+  <dlg:button dlg:id="Setting" dlg:tab-index="1" dlg:left="349" dlg:top="212" dlg:width="50" dlg:height="20" dlg:value="Setting">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|createDialog.py$createDgSetting?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
-  <dlg:menulist dlg:id="TemplateInfo" dlg:tab-index="0" dlg:left="55" dlg:top="56" dlg:width="209" dlg:height="112">
-   <dlg:menupopup>
-    <dlg:menuitem dlg:value="&quot;aa&quot;;&quot;aaa&quot;"/>
-   </dlg:menupopup>
-  </dlg:menulist>
-  <dlg:button dlg:id="Sync" dlg:tab-index="2" dlg:left="277" dlg:top="88" dlg:width="44" dlg:height="20" dlg:value="Sync">
-   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$getCurrentData?language=Python&amp;location=user:uno_packages" script:language="Script"/>
+  <dlg:text dlg:id="Label1" dlg:tab-index="2" dlg:left="7" dlg:top="10" dlg:width="30" dlg:height="12" dlg:value="Total" dlg:align="center" dlg:valign="center"/>
+  <dlg:text dlg:id="Label2" dlg:tab-index="3" dlg:left="86" dlg:top="10" dlg:width="30" dlg:height="12" dlg:value="ODT" dlg:align="center" dlg:valign="center"/>
+  <dlg:text dlg:id="Label3" dlg:tab-index="4" dlg:left="160" dlg:top="10" dlg:width="30" dlg:height="12" dlg:value="ODS" dlg:align="center" dlg:valign="center"/>
+  <dlg:button dlg:id="TemplateCenter" dlg:tab-index="5" dlg:left="349" dlg:top="238" dlg:width="50" dlg:height="20" dlg:value="TemplateCenter">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplatesMarket.Module1.doNDCCollection?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:formattedfield dlg:id="FormattedField1" dlg:tab-index="5" dlg:left="280" dlg:top="140" dlg:width="27" dlg:height="45"/>
-  <dlg:treecontrol dlg:id="TreeControl1" dlg:tab-index="6" dlg:left="123" dlg:top="189" dlg:width="66" dlg:height="30"/>
-  <dlg:combobox dlg:id="ComboBox1" dlg:tab-index="7" dlg:left="205" dlg:top="197" dlg:width="36" dlg:height="24" dlg:spin="true"/>
-  <dlg:textfield dlg:id="TextField1" dlg:tab-index="8" dlg:left="203" dlg:top="173" dlg:width="59" dlg:height="22"/>
-  <dlg:img dlg:id="ImageControl1" dlg:tab-index="9" dlg:left="60" dlg:top="186" dlg:width="44" dlg:height="32" dlg:src="file:///D:/vb_shared723/lion-facts.jpg"/>
-  <dlg:filecontrol dlg:id="FileControl1" dlg:tab-index="10" dlg:left="8" dlg:top="58" dlg:width="39" dlg:height="74"/>
-  <dlg:scrollbar dlg:id="ScrollBar1" dlg:tab-index="11" dlg:left="19" dlg:top="180" dlg:width="27" dlg:height="52" dlg:align="vertical"/>
-  <dlg:fixedline dlg:id="FixedLine1" dlg:tab-index="12" dlg:left="88" dlg:top="235" dlg:width="94" dlg:height="16"/>
-  <dlg:spinbutton dlg:id="SpinButton1" dlg:tab-index="13" dlg:left="195" dlg:top="235" dlg:width="41" dlg:height="10"/>
-  <dlg:scrollbar dlg:style-id="0" dlg:id="ScrollBar2" dlg:tab-index="14" dlg:left="11" dlg:top="247" dlg:width="32" dlg:height="8"/>
-  <dlg:progressmeter dlg:id="ProgressBar1" dlg:tab-index="15" dlg:left="266" dlg:top="239" dlg:width="51" dlg:height="10"/>
-  <dlg:text dlg:id="Label1" dlg:tab-index="16" dlg:left="226" dlg:top="35" dlg:width="63" dlg:height="14" dlg:value="Label1"/>
+  <dlg:button dlg:id="Cancel" dlg:tab-index="6" dlg:left="349" dlg:top="265" dlg:width="50" dlg:height="20" dlg:value="Cancel" dlg:button-type="cancel"/>
+  <dlg:textfield dlg:id="TextField1" dlg:tab-index="7" dlg:left="40" dlg:top="10" dlg:width="40" dlg:height="12"/>
+  <dlg:textfield dlg:id="TextField2" dlg:tab-index="8" dlg:left="118" dlg:top="10" dlg:width="40" dlg:height="12"/>
+  <dlg:textfield dlg:id="TextField3" dlg:tab-index="9" dlg:left="192" dlg:top="10" dlg:width="40" dlg:height="12"/>
+  <dlg:textfield dlg:id="TextField4" dlg:tab-index="10" dlg:left="270" dlg:top="10" dlg:width="40" dlg:height="12"/>
+  <dlg:text dlg:id="Label4" dlg:tab-index="11" dlg:left="237" dlg:top="10" dlg:width="30" dlg:height="12" dlg:value="New" dlg:align="center" dlg:valign="center"/>
+  <dlg:button dlg:id="Download" dlg:tab-index="0" dlg:left="349" dlg:top="50" dlg:width="50" dlg:height="20" dlg:value="Download">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$syncTemplates?language=Python&amp;location=user:uno_packages" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="GetTemplateInfo" dlg:tab-index="12" dlg:left="349" dlg:top="26" dlg:width="50" dlg:height="20" dlg:value="GetTemplateInfo">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$checkDiff?language=Python&amp;location=user:uno_packages" script:language="Script"/>
+  </dlg:button>
  </dlg:bulletinboard>
 </dlg:window>

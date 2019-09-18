@@ -24,7 +24,21 @@ Sub LoadMriLibrary()
   Globalscope.BasicLibraries.LoadLibrary( &quot;MRILib&quot; )
 End Sub
 
-
+REM *****
+REM **main op: 顯示延伸套件(公務文件範本)
+REM *****
+function doNDCCollection()
+	on error goto ndcnotfound
+	BasicLibraries.loadLibrary("Basicc")
+	Basicc.Module2.Main
+	exit function
+ndcnotfound:
+REM **msgbox "請先安裝延伸套件(公務文件範本)!"
+	dim document   as object
+	dim dispatcher as object
+	dispatcher = createUnoService("com.sun.star.frame.DispatchHelper")
+	dispatcher.executeDispatch(Stardesktop, ".uno:NewDoc", "", 0, Array())
+end function
 
 
 </script:module>
