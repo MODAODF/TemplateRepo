@@ -12,16 +12,19 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplatesMarket.Module1.doNDCCollection?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="6" dlg:left="349" dlg:top="265" dlg:width="50" dlg:height="20" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:textfield dlg:id="TextField1" dlg:tab-index="7" dlg:left="40" dlg:top="10" dlg:width="40" dlg:height="12"/>
-  <dlg:textfield dlg:id="TextField2" dlg:tab-index="8" dlg:left="118" dlg:top="10" dlg:width="40" dlg:height="12"/>
-  <dlg:textfield dlg:id="TextField3" dlg:tab-index="9" dlg:left="192" dlg:top="10" dlg:width="40" dlg:height="12"/>
-  <dlg:textfield dlg:id="TextField4" dlg:tab-index="10" dlg:left="270" dlg:top="10" dlg:width="40" dlg:height="12"/>
   <dlg:text dlg:id="Label4" dlg:tab-index="11" dlg:left="237" dlg:top="10" dlg:width="30" dlg:height="12" dlg:value="New" dlg:align="center" dlg:valign="center"/>
   <dlg:button dlg:id="Download" dlg:tab-index="0" dlg:left="349" dlg:top="50" dlg:width="50" dlg:height="20" dlg:value="Download">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$syncTemplates?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="GetTemplateInfo" dlg:tab-index="12" dlg:left="349" dlg:top="26" dlg:width="50" dlg:height="20" dlg:value="GetTemplateInfo">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$checkDiff?language=Python&amp;location=user:uno_packages" script:language="Script"/>
+  </dlg:button>
+  <dlg:textfield dlg:id="Total" dlg:tab-index="7" dlg:disabled="true" dlg:left="40" dlg:top="10" dlg:width="40" dlg:height="12" dlg:readonly="true"/>
+  <dlg:textfield dlg:id="ODT" dlg:tab-index="8" dlg:disabled="true" dlg:left="118" dlg:top="10" dlg:width="40" dlg:height="12" dlg:readonly="true"/>
+  <dlg:textfield dlg:id="ODS" dlg:tab-index="9" dlg:disabled="true" dlg:left="192" dlg:top="10" dlg:width="40" dlg:height="12" dlg:readonly="true"/>
+  <dlg:textfield dlg:id="New" dlg:tab-index="10" dlg:disabled="true" dlg:left="270" dlg:top="10" dlg:width="40" dlg:height="12" dlg:readonly="true"/>
+  <dlg:button dlg:id="CommandButton1" dlg:tab-index="13" dlg:left="359" dlg:top="122" dlg:width="23" dlg:height="30" dlg:value="Test">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateMarket.oxt|python|scripts|api_utils.py$test?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
  </dlg:bulletinboard>
 </dlg:window>

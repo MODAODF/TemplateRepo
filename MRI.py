@@ -19,6 +19,34 @@ import urllib, json
 
 TEST_IMPLE_NAME = "test.test"
 
+def renderInfoLabel(dialog, jsonData):
+    oGridModel = dialog.getControl("ListGrid").Model
+    TotalLabel = dialog.getControl("Total")
+    ODTLabel = dialog.getControl("ODT")
+    ODSLabel = dialog.getControl("ODS")
+    NewLabel = dialog.getControl("New")
+
+    totalCount = 0
+    ODTCount = 0
+    ODSCount = 0
+    NewCount = 0
+
+    for depart in jsonData:
+        for template in jsonData[depart]:
+            totalCount += 1
+            extname = template['extname']
+            if extname == 'ott':
+                ODTCount += 1
+            elif extname == "ots" :
+                ODSCount += 1
+    for color in oGridModel.RowBackgroundColors:
+        if color == int("ffb5b5", 16):
+            NewCount += 1
+    TotalLabel.Model.Text = str(totalCount)
+    ODTLabel.Model.Text = str(ODTCount)
+    ODSLabel.Model.Text = str(ODSCount)
+    NewLabel.Model.Text = str(NewCount)
+
 def checkDiff(dialog):
     
     grid = dialog.getControl("ListGrid")
@@ -26,13 +54,13 @@ def checkDiff(dialog):
     oDataModel = oGridModel.GridDataModel
 
     try:
-        with open(TRConf.InfoFilePath, "r") as jsonFile:
+        with open(TRConf.getTemplateInfoPath(), "r") as jsonFile:
             oldTemplateInfo = json.load(jsonFile)
     except:
         oldTemplateInfo = {}
     
     try:
-        url = "http://192.168.3.11:9980/lool/templaterepo/list"
+        url = TRConf.getAPIAddress_List()
         res = urllib.request.urlopen(url)
         newTemplateInfo = json.loads(res.read().decode())
     except:
@@ -90,7 +118,9 @@ def checkDiff(dialog):
                 diffJson[nDepart].append(template)
     oGridModel.RowBackgroundColors = colorArray
 
-    with open(r"C:\\Users\\Tommy\\AppData\\NDCFILE\\diffInfo.json", "w") as outFile:
+    renderInfoLabel(dialog, newTemplateInfo)
+
+    with open(TRConf.getDiffInfoPath(), "w") as outFile:
         json.dump(diffJson, outFile)
 
 def createGrid(dialog):
