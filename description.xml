@@ -2,7 +2,7 @@
 <description xmlns="http://openoffice.org/extensions/description/2006" 
     xmlns:xlink="http://www.w3.org/1999/xlink" 
     xmlns:d="http://openoffice.org/extensions/description/2006">
-    <identifier value="vnd.basicaddonbuilder.templatesmarket" />
+    <identifier value="vnd.basicaddonbuilder.TemplateCenter" />
     <version value="0.0.1" />
     <dependencies>
         <OpenOffice.org-minimal-version value="3.4" d:name="OpenOffice.org 3.4" />
@@ -15,10 +15,7 @@
     <display-name>
         <name lang="zh-tw">文件市集</name>
     </display-name>
-    <icon>
-        <default xlink:href="icons/mri.png"/>
-        <high-contrast xlink:href="icons/mri_hc.png"/>
-    </icon>
+    
     <extension-description>
         <src lang="en" xlink:href="descriptions/desc.en"/>
     </extension-description>

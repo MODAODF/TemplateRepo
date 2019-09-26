@@ -1,19 +1,16 @@
-import TemplateRepoConf as TRConf
+import TemplateCenterConf as TCenterConf
+import TemplateCenterUtility as TCenterUtility
+import TemplateCenterUtility
 from urllib import request
 import urllib
 import json
 import os, sys
+import uno,unohelper
 
-def getCurrentData(*args, **kwargs):
-    try:
-        url = TRConf.getAPIAddress_List()
-        res = urllib.request.urlopen(url)
-        with open(r"C:\\Users\\Tommy\\AppData\\NDCFILE\\templatesInfo.json", "w") as outFile:
-            json.dump(json.loads(res.read().decode()), outFile)
-    except:
-        return
+
 
 def checkDiff(*args, **kwargs):
+    
     theSource = args[0].Source
     dialog = theSource.getContext()
     clearGrid(dialog)
@@ -23,18 +20,20 @@ def checkDiff(*args, **kwargs):
     oDataModel = oGridModel.GridDataModel
 
     try:
-        with open(TRConf.getTemplateInfoPath(), "r") as jsonFile:
+        with open(TCenterConf.getTemplateInfoPath(), "r") as jsonFile:
             oldTemplateInfo = json.load(jsonFile)
     except:
         oldTemplateInfo = {}
 
     
     try:
-        url = TRConf.getAPIAddress_List()
-        res = urllib.request.urlopen(url)
+        url = TCenterConf.getAPIAddress_List()
+        res = urllib.request.urlopen(url, timeout=2)
         newTemplateInfo = json.loads(res.read().decode())
     except:
-        oDataModel.addRow("X", ["請確認網服務","或是","伺服器是否有正確設定",TRConf.getAPIAddress_List()])
+        message = "請確認伺服器設定\n\n當前伺服器位置設定" + TCenterConf.getAPIAddress_List()
+        TCenterUtility.Msgbox(message)
+        oDataModel.addRow("X", ["請確認網路服務", "伺服器是否有正確設定"])
         return
 
     rowCount = 1
@@ -87,7 +86,7 @@ def checkDiff(*args, **kwargs):
     oGridModel.RowBackgroundColors = colorArray
 
     renderInfoLabel(dialog, newTemplateInfo)
-    with open(TRConf.getDiffInfoPath(), "w") as outFile:
+    with open(TCenterConf.getDiffInfoPath(), "w") as outFile:
         json.dump(diffJson, outFile)
 
 def renderSyncResult(dialog, jsonData):
@@ -116,11 +115,13 @@ def renderInfoLabel(dialog, jsonData):
     TotalLabel = dialog.getControl("Total")
     ODTLabel = dialog.getControl("ODT")
     ODSLabel = dialog.getControl("ODS")
+    ODPLabel = dialog.getControl("ODP")
     NewLabel = dialog.getControl("New")
 
     totalCount = 0
     ODTCount = 0
     ODSCount = 0
+    ODPCount = 0
     NewCount = 0
 
     for depart in jsonData:
@@ -129,18 +130,21 @@ def renderInfoLabel(dialog, jsonData):
             extname = template['extname']
             if extname == 'ott':
                 ODTCount += 1
-            elif extname == "ots" :
+            elif extname == "ots":
                 ODSCount += 1
+            elif extname == "otp":
+                ODPCount += 1
     for color in oGridModel.RowBackgroundColors:
         if color == int("ffb5b5", 16):
             NewCount += 1
     TotalLabel.Model.Text = str(totalCount)
     ODTLabel.Model.Text = str(ODTCount)
     ODSLabel.Model.Text = str(ODSCount)
+    ODPLabel.Model.Text = str(ODPCount)
     NewLabel.Model.Text = str(NewCount)
 
 def emptyDiff():
-    with open(TRConf.getDiffInfoPath(), "w") as outFile:
+    with open(TCenterConf.getDiffInfoPath(), "w") as outFile:
         json.dump({}, outFile)
         outFile.close()
 
@@ -154,7 +158,7 @@ def saveServerSetting(*args, **kwargs):
     jsonData['ServerAddress'] = ipAddr.Text
     jsonData['Port'] = port.Text
     jsonData['httpMethod'] = httpMethod.State
-    with open(TRConf.getServerSettingPath(), "w") as serverSetting:
+    with open(TCenterConf.getServerSettingPath(), "w") as serverSetting:
         json.dump(jsonData, serverSetting)
     dialog.endExecute()
 
@@ -178,7 +182,7 @@ def syncTemplates(*args, **kwargs):
     """
     Download the diff file from remote and extract
     """
-    projectDataPath = TRConf.getProjectDataPath()
+    projectDataPath = TCenterConf.getProjectDataPath()
     try:
         os.remove(projectDataPath + "error_urlopen.json")
     except:
@@ -194,13 +198,13 @@ def syncTemplates(*args, **kwargs):
         jsonData = {}
         headers={'Content-Type':'application/json'}
         
-        with open(TRConf.getDiffInfoPath(), "r") as outFile:
+        with open(TCenterConf.getDiffInfoPath(), "r") as outFile:
             jsonData = json.load(outFile)
         bindata = json.dumps(jsonData)
         bindata = bindata.encode('utf-8')
         try:
-            req = urllib.request.Request(TRConf.getAPIAddress_Sync(), data=bindata, headers=headers)
-            res = urllib.request.urlopen(req)
+            req = urllib.request.Request(TCenterConf.getAPIAddress_Sync(), data=bindata, headers=headers)
+            res = urllib.request.urlopen(req, timeout=3)
         except:
             oDataModel.addRow("X", ["請確認網服務","或是","伺服器是否有正確設定"])
             return
@@ -212,16 +216,17 @@ def syncTemplates(*args, **kwargs):
         # 解壓縮檔案到使用者端的 Templates
         import zipfile
         zf = zipfile.ZipFile(projectDataPath + "sync.zip")
-        zf.extractall(TRConf.getUserTemplatePath())
+        zf.extractall(TCenterConf.getUserTemplatePath())
         emptyDiff()
         try:
-            url = TRConf.getAPIAddress_List()
-            res = urllib.request.urlopen(url)
+            url = TCenterConf.getAPIAddress_List()
+            res = urllib.request.urlopen(url, timeout=60)
             jsonData = json.loads(res.read().decode())
-            with open(TRConf.getTemplateInfoPath(), "w") as outFile:
+            with open(TCenterConf.getTemplateInfoPath(), "w") as outFile:
                 json.dump(jsonData, outFile)
             renderSyncResult(dialog, jsonData)
             renderInfoLabel(dialog, jsonData)
+            TCenterUtility.Msgbox("同步完成")
         except:
             oDataModel.addRow("X", ["請確認網服務","或是","伺服器是否有正確設定"])
             return
@@ -229,6 +234,7 @@ def syncTemplates(*args, **kwargs):
     except:
         with open(projectDataPath + "error_urlopen.json", "w") as fout:
             fout.write("error\n")
+    
 
 def test(*args, **kwargs):
     theSource = args[0].Source
@@ -236,19 +242,19 @@ def test(*args, **kwargs):
     grid = dialog.getControl("ListGrid")
     oGridModel = grid.Model
     oDataModel = oGridModel.GridDataModel
-    with open(TRConf.getProjectDataPath() + "color.txt", "w") as outFile:
+    with open(TCenterConf.getProjectDataPath() + "color.txt", "w") as outFile:
         outFile.write(str(oGridModel.RowBackgroundColors))
 
 def fileChange(*args, **kwargs):
     try:
-        projectDataPath = TRConf.getProjectDataPath()
+        projectDataPath = TCenterConf.getProjectDataPath()
         with open(projectDataPath + "test.json", "w") as fout:
             fout.write("test\n")
     except:
         pass
 
 def getButton(*args, **kwargs):
-    url = TRConf.getAPIAddress_List()
+    url = TCenterConf.getAPIAddress_List()
     res = urllib.request.urlopen(url)
     data = json.loads(res.read().decode())
     theSource = args[0].Source
