@@ -1,6 +1,5 @@
 import uno
-
-
+import TemplateCenterConf as TRConf
 
 def Msgbox(Mensaje):
     ctx = uno.getComponentContext()    
@@ -13,11 +12,23 @@ def Msgbox(Mensaje):
     sTipo = "infobox"
     sTitulo = "Hint"
     botones = 1
-    oParentWin = oDoc.getCurrentController().getFrame().getContainerWindow()
-    oMsgBox = oToolkit.createMessageBox(
-        oParentWin, sTipo, botones, sTitulo, Mensaje)
-    oMsgBox.execute()
+    if hasattr(oDoc, "SupportsService"):
+        oParentWin = oDoc.getCurrentController().getFrame().getContainerWindow()
+        oMsgBox = oToolkit.createMessageBox(
+            oParentWin, sTipo, botones, sTitulo, Mensaje)
+        oMsgBox.execute()
+    else:
+        oParentWin = oDoc.getFrame().getContainerWindow()
+        oMsgBox = oToolkit.createMessageBox(
+            oParentWin, sTipo, botones, sTitulo, Mensaje)
+        oMsgBox.execute()
+    
     return None
 
+def write2file(filename, msg):
+    with open(TRConf.getProjectDataPath() + filename, "w") as fp:
+        for item in msg:
+            fp.write(str(item)+"\n")
+        fp.close()
 
 
