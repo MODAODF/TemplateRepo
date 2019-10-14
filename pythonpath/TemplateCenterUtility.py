@@ -12,7 +12,7 @@ def Msgbox(Mensaje):
     sTipo = "infobox"
     sTitulo = "Hint"
     botones = 1
-    if hasattr(oDoc, "SupportsService"):
+    if hasattr(oDoc, "getCurrentController"):
         oParentWin = oDoc.getCurrentController().getFrame().getContainerWindow()
         oMsgBox = oToolkit.createMessageBox(
             oParentWin, sTipo, botones, sTitulo, Mensaje)

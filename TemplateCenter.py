@@ -148,7 +148,7 @@ def createGrid(dialog):
 
     maxColumn = 4
 
-    oCol.Title = "部門"
+    oCol.Title = "類別"
     oCol.MaxWidth = oGridWidth/maxColumn
     oColumnModel.addColumn(oCol)
 
