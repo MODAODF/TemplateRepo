@@ -3,6 +3,7 @@ import json
 InfoFilePath = r"templatesInfo.json"
 DiffFilePath = r"diffInfo.json"
 ServerSettingPath = r"server.json"
+syncCheckResultPath = r"sync_check.json"
 ProjectName  = "TemplateCenter.oxt"
 
 def getServerAddress():
@@ -73,3 +74,8 @@ def getUserTemplatePath():
     if not os.path.exists(outPath):
         os.mkdir(outPath)
     return outPath
+
+def getSyncCheckResult():
+    prDataPath = getProjectDataPath()
+    global syncCheckResultPath
+    return prDataPath + syncCheckResultPath

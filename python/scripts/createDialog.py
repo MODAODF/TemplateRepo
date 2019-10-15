@@ -28,7 +28,6 @@ def createDgTemplate(*args, **kwargs):
     dialog.EnableVisible = True
     dialog.dispose()
 
-
 def createDgSetting(*args, **kwargs):
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
