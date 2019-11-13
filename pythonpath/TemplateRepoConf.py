@@ -36,6 +36,17 @@ def getAPIAddress_Sync():
     apiAddress  = baseAddress + 'lool/templaterepo/sync'
     return apiAddress
 
+def getProjectImagesPath():
+    global ProjectName
+    outPath = ""
+    for path in sys.path:
+        if ProjectName in path:
+            outPath = path
+            break
+    
+    outPath = outPath.split(ProjectName)[0] + ProjectName + "\\images\\"
+    return outPath
+
 def getProjectDataPath():
     global ProjectName
     outPath = ""

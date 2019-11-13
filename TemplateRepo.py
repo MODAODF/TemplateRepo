@@ -23,6 +23,9 @@ import json
 def createGrid(dialog):
     grid = dialog.getModel().createInstance(
         "com.sun.star.awt.grid.UnoControlGridModel")
+    imgControl = dialog.getControl("icon")
+    imgModel = imgControl.Model
+    imgModel.ImageURL = "file:///" + TRepoConf.getProjectImagesPath() + "templist_icon.png"
     dialog.getModel().insertByName("ListGrid", grid)
     grid = dialog.getControl("ListGrid")
     xxGridModel = grid.Model

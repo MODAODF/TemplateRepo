@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="TemplateList" dlg:left="134" dlg:top="56" dlg:width="402" dlg:height="307" dlg:help-text="&amp;96.TemplateList.HelpText" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;97.TemplateList.Title">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:style-id="2" dlg:id="TemplateList" dlg:left="134" dlg:top="56" dlg:width="400" dlg:height="293" dlg:help-text="&amp;96.TemplateList.HelpText" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;97.TemplateList.Title">
+ <dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:font-height="10"/>
+  <dlg:style dlg:style-id="1" dlg:background-color="0xeeeeee"/>
+  <dlg:style dlg:style-id="2" dlg:border="none" dlg:font-name="Times New Roman" dlg:font-height="12" dlg:font-stylename="標準" dlg:font-family="roman"/>
+ </dlg:styles>
  <dlg:bulletinboard>
   <dlg:button dlg:id="Setting" dlg:tab-index="1" dlg:left="349" dlg:top="212" dlg:width="50" dlg:height="20" dlg:help-text="&amp;98.TemplateList.Setting.HelpText" dlg:value="&amp;99.TemplateList.Setting.Label">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateRepo.oxt|python|scripts|createDialog.py$createDgSetting?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="Label1" dlg:tab-index="2" dlg:left="7" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;100.TemplateList.Label1.HelpText" dlg:value="&amp;101.TemplateList.Label1.Label" dlg:align="center" dlg:valign="center"/>
-  <dlg:text dlg:id="Label2" dlg:tab-index="3" dlg:left="86" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;102.TemplateList.Label2.HelpText" dlg:value="&amp;103.TemplateList.Label2.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:text dlg:style-id="0" dlg:id="Label1" dlg:tab-index="2" dlg:left="45" dlg:top="10" dlg:width="34" dlg:height="12" dlg:help-text="&amp;100.TemplateList.Label1.HelpText" dlg:value="&amp;101.TemplateList.Label1.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:text dlg:id="Label2" dlg:tab-index="3" dlg:left="105" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;102.TemplateList.Label2.HelpText" dlg:value="&amp;103.TemplateList.Label2.Label" dlg:align="center" dlg:valign="center"/>
   <dlg:text dlg:id="Label3" dlg:tab-index="4" dlg:left="160" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;104.TemplateList.Label3.HelpText" dlg:value="&amp;105.TemplateList.Label3.Label" dlg:align="center" dlg:valign="center"/>
   <dlg:button dlg:id="TemplateRepo" dlg:tab-index="5" dlg:left="349" dlg:top="238" dlg:width="50" dlg:height="20" dlg:help-text="&amp;106.TemplateList.TemplateRepo.HelpText" dlg:value="&amp;107.TemplateList.TemplateRepo.Label">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateRepo.Module1.doNDCCollection?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="6" dlg:left="349" dlg:top="265" dlg:width="50" dlg:height="20" dlg:help-text="&amp;108.TemplateList.Cancel.HelpText" dlg:value="&amp;109.TemplateList.Cancel.Label" dlg:button-type="cancel"/>
-  <dlg:text dlg:id="Label4" dlg:tab-index="11" dlg:left="310" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;110.TemplateList.Label4.HelpText" dlg:value="&amp;111.TemplateList.Label4.Label" dlg:align="center" dlg:valign="center"/>
-  <dlg:button dlg:id="Download" dlg:tab-index="0" dlg:left="349" dlg:top="50" dlg:width="50" dlg:height="20" dlg:help-text="&amp;112.TemplateList.Download.HelpText" dlg:value="&amp;113.TemplateList.Download.Label">
+  <dlg:text dlg:id="Label4" dlg:tab-index="11" dlg:left="271" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;110.TemplateList.Label4.HelpText" dlg:value="&amp;111.TemplateList.Label4.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:button dlg:id="Download" dlg:tab-index="0" dlg:left="349" dlg:top="54" dlg:width="50" dlg:height="20" dlg:help-text="&amp;112.TemplateList.Download.HelpText" dlg:value="&amp;113.TemplateList.Download.Label">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateRepo.oxt|python|scripts|api_utils.py$syncTemplates?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="GetTemplateInfo" dlg:tab-index="12" dlg:left="349" dlg:top="26" dlg:width="50" dlg:height="20" dlg:help-text="&amp;114.TemplateList.GetTemplateInfo.HelpText" dlg:value="&amp;115.TemplateList.GetTemplateInfo.Label">
+  <dlg:button dlg:id="GetTemplateInfo" dlg:tab-index="12" dlg:left="349" dlg:top="30" dlg:width="50" dlg:height="20" dlg:help-text="&amp;114.TemplateList.GetTemplateInfo.HelpText" dlg:value="&amp;115.TemplateList.GetTemplateInfo.Label">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateRepo.oxt|python|scripts|api_utils.py$checkDiff?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
-  <dlg:textfield dlg:id="Total" dlg:tab-index="7" dlg:disabled="true" dlg:left="40" dlg:top="10" dlg:width="40" dlg:height="12" dlg:help-text="&amp;116.TemplateList.Total.HelpText" dlg:readonly="true" dlg:value="&amp;117.TemplateList.Total.Text"/>
-  <dlg:textfield dlg:id="ODT" dlg:tab-index="8" dlg:disabled="true" dlg:left="118" dlg:top="10" dlg:width="40" dlg:height="12" dlg:help-text="&amp;118.TemplateList.ODT.HelpText" dlg:readonly="true" dlg:value="&amp;119.TemplateList.ODT.Text"/>
-  <dlg:textfield dlg:id="ODS" dlg:tab-index="9" dlg:disabled="true" dlg:left="192" dlg:top="10" dlg:width="40" dlg:height="12" dlg:help-text="&amp;120.TemplateList.ODS.HelpText" dlg:readonly="true" dlg:value="&amp;121.TemplateList.ODS.Text"/>
-  <dlg:textfield dlg:id="New" dlg:tab-index="10" dlg:disabled="true" dlg:left="343" dlg:top="10" dlg:width="40" dlg:height="12" dlg:help-text="&amp;122.TemplateList.New.HelpText" dlg:readonly="true" dlg:value="&amp;123.TemplateList.New.Text"/>
-  <dlg:textfield dlg:id="ODP" dlg:tab-index="13" dlg:disabled="true" dlg:left="267" dlg:top="10" dlg:width="40" dlg:height="12" dlg:help-text="&amp;128.TemplateList.ODP.HelpText" dlg:readonly="true" dlg:value="&amp;129.TemplateList.ODP.Text"/>
-  <dlg:text dlg:id="Label6" dlg:tab-index="14" dlg:left="235" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;130.TemplateList.Label6.HelpText" dlg:value="&amp;131.TemplateList.Label6.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:textfield dlg:style-id="1" dlg:id="Total" dlg:tab-index="7" dlg:disabled="true" dlg:left="81" dlg:top="10" dlg:width="20" dlg:height="12" dlg:help-text="&amp;116.TemplateList.Total.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;117.TemplateList.Total.Text"/>
+  <dlg:textfield dlg:style-id="1" dlg:id="ODT" dlg:tab-index="8" dlg:disabled="true" dlg:left="137" dlg:top="10" dlg:width="20" dlg:height="12" dlg:help-text="&amp;118.TemplateList.ODT.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;119.TemplateList.ODT.Text"/>
+  <dlg:textfield dlg:style-id="1" dlg:id="ODS" dlg:tab-index="9" dlg:disabled="true" dlg:left="192" dlg:top="10" dlg:width="20" dlg:height="12" dlg:help-text="&amp;120.TemplateList.ODS.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;121.TemplateList.ODS.Text"/>
+  <dlg:textfield dlg:style-id="1" dlg:id="New" dlg:tab-index="10" dlg:disabled="true" dlg:left="304" dlg:top="10" dlg:width="20" dlg:height="12" dlg:help-text="&amp;122.TemplateList.New.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;123.TemplateList.New.Text"/>
+  <dlg:textfield dlg:style-id="1" dlg:id="ODP" dlg:tab-index="13" dlg:disabled="true" dlg:left="248" dlg:top="10" dlg:width="20" dlg:height="12" dlg:help-text="&amp;128.TemplateList.ODP.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;129.TemplateList.ODP.Text"/>
+  <dlg:text dlg:id="Label6" dlg:tab-index="14" dlg:left="216" dlg:top="10" dlg:width="30" dlg:height="12" dlg:help-text="&amp;130.TemplateList.Label6.HelpText" dlg:value="&amp;131.TemplateList.Label6.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:fixedline dlg:id="FixedLine1" dlg:tab-index="16" dlg:left="8" dlg:top="26" dlg:width="335" dlg:height="1" dlg:help-text="&amp;153.TemplateList.FixedLine1.HelpText" dlg:value="&amp;154.TemplateList.FixedLine1.Label"/>
+  <dlg:img dlg:style-id="2" dlg:id="icon" dlg:tab-index="15" dlg:left="13" dlg:top="6" dlg:width="17" dlg:height="18" dlg:help-text="&amp;155.TemplateList.icon.HelpText" dlg:scale-mode="isotropic"/>
  </dlg:bulletinboard>
 </dlg:window>
