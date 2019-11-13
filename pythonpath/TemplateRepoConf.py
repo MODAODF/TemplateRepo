@@ -4,7 +4,7 @@ InfoFilePath = r"templatesInfo.json"
 DiffFilePath = r"diffInfo.json"
 ServerSettingPath = r"server.json"
 syncCheckResultPath = r"sync_check.json"
-ProjectName  = "TemplateCenter.oxt"
+ProjectName  = "TemplateRepo.oxt"
 
 def getServerAddress():
     try:

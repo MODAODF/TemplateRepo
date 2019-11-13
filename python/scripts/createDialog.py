@@ -1,5 +1,5 @@
 import uno
-import TemplateCenterConf as TCenterConf
+import TemplateRepoConf as TRepoConf
 import json
 templateDialog = None
 
@@ -7,7 +7,7 @@ def createDgConfig(*args, **kwargs):
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
-    dialog = dp.createDialog("vnd.sun.star.script:TemplateCenter.Config?location=application")
+    dialog = dp.createDialog("vnd.sun.star.script:TemplateRepo.Config?location=application")
     dialog.execute()
     dialog.dispose()
 
@@ -15,7 +15,7 @@ def createDgCommandList(*args, **kwargs):
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
-    dialog = dp.createDialog("vnd.sun.star.script:TemplateCenter.CommandList?location=application")
+    dialog = dp.createDialog("vnd.sun.star.script:TemplateRepo.CommandList?location=application")
     dialog.execute()
     dialog.dispose()
 
@@ -23,7 +23,7 @@ def createDgTemplate(*args, **kwargs):
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
-    dialog = dp.createDialog("vnd.sun.star.script:TemplateCenter.TemplateList?location=application")
+    dialog = dp.createDialog("vnd.sun.star.script:TemplateRepo.TemplateList?location=application")
     #dialog.execute()
     dialog.EnableVisible = True
     dialog.dispose()
@@ -32,10 +32,10 @@ def createDgSetting(*args, **kwargs):
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
-    dialog = dp.createDialog("vnd.sun.star.script:TemplateCenter.Setting?location=application")
+    dialog = dp.createDialog("vnd.sun.star.script:TemplateRepo.Setting?location=application")
     try:
         jsonData = {}
-        with open(TCenterConf.getServerSettingPath(), "r") as serverSetting:
+        with open(TRepoConf.getServerSettingPath(), "r") as serverSetting:
             jsonData = json.load(serverSetting)
         ipAddr = dialog.getControl("ServerAddress").Model
         port = dialog.getControl("Port").Model

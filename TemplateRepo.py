@@ -13,8 +13,8 @@
 #  limitations under the License.
 
 import unohelper
-import TemplateCenterUtility as TCenterUtility
-import TemplateCenterConf as TCenterConf
+import TemplateRepoUtility as TRepoUtility
+import TemplateRepoConf as TRepoConf
 from urllib import request
 import urllib
 import json
@@ -58,7 +58,7 @@ def createGrid(dialog):
     oColumnModel.addColumn(oCol)
 
 from com.sun.star.task import XJob
-class TemplateCenter(unohelper.Base, XJob):
+class TemplateRepo(unohelper.Base, XJob):
         def __init__(self, ctx):
             self.ctx = ctx
 
@@ -67,20 +67,20 @@ class TemplateCenter(unohelper.Base, XJob):
             dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", self.ctx)
 
             dialog = dp.createDialog(
-                "vnd.sun.star.script:TemplateCenter.TemplateList?location=application")
+                "vnd.sun.star.script:TemplateRepo.TemplateList?location=application")
             createGrid(dialog)
-            TCenterUtility.checkDiff(dialog)
-            dialog.setVisible(True)
-            TCenterUtility.syncTemplates(dialog)
+            if TRepoUtility.checkDiff(dialog):
+                dialog.setVisible(True)
+                TRepoUtility.syncTemplates(dialog)
 
             dialog.execute()
 
 # Registration
-IMPLE_NAME = "TemplateCenter.Main"
+IMPLE_NAME = "TemplateRepo.Main"
 
 g_ImplementationHelper = unohelper.ImplementationHelper()
 
 g_ImplementationHelper.addImplementation(
-    TemplateCenter, IMPLE_NAME, (IMPLE_NAME,),)
+    TemplateRepo, IMPLE_NAME, (IMPLE_NAME,),)
 
 

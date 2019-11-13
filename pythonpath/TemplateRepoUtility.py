@@ -1,5 +1,5 @@
 import uno
-import TemplateCenterConf as TCenterConf
+import TemplateRepoConf as TRepoConf
 import json
 from urllib import request
 import urllib
@@ -28,7 +28,7 @@ def Msgbox(Message):
     return None
 
 def write2file(filename, msg):
-    with open(TCenterConf.getProjectDataPath() + filename, "w") as fp:
+    with open(TRepoConf.getProjectDataPath() + filename, "w") as fp:
         for item in msg:
             fp.write(str(item)+"\n")
         fp.close()
@@ -36,11 +36,11 @@ def write2file(filename, msg):
 def sycnCheckNo():
     jsonData = {}
     jsonData['sync'] = False
-    with open(TCenterConf.getSyncCheckResult(), "w") as syncCheckResult:
+    with open(TRepoConf.getSyncCheckResult(), "w") as syncCheckResult:
         json.dump(jsonData, syncCheckResult)
 
 def readSycnCheck():
-    with open(TCenterConf.getSyncCheckResult(), "r") as syncCheckResult:
+    with open(TRepoConf.getSyncCheckResult(), "r") as syncCheckResult:
         result = json.load(syncCheckResult)
     if result['sync']:
         return True
@@ -51,7 +51,7 @@ def createDgSyncCheck():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", ctx)
-    dialog = dp.createDialog("vnd.sun.star.script:TemplateCenter.SyncCheck?location=application")
+    dialog = dp.createDialog("vnd.sun.star.script:TemplateRepo.SyncCheck?location=application")
     dialog.execute()
 
 def checkDiff(sDialog):
@@ -63,20 +63,20 @@ def checkDiff(sDialog):
     oDataModel = oGridModel.GridDataModel
 
     try:
-        with open(TCenterConf.getTemplateInfoPath(), "r") as jsonFile:
+        with open(TRepoConf.getTemplateInfoPath(), "r") as jsonFile:
             oldTemplateInfo = json.load(jsonFile)
     except:
         oldTemplateInfo = {}
 
     
     try:
-        url = TCenterConf.getAPIAddress_List()
+        url = TRepoConf.getAPIAddress_List()
         res = urllib.request.urlopen(url, timeout=2)
         newTemplateInfo = json.loads(res.read().decode())
     except:
-        message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TCenterConf.getServerAddress()
+        message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
         Msgbox(message)
-        return
+        return False
 
     rowCount = 1
     colorArray = []
@@ -128,33 +128,45 @@ def checkDiff(sDialog):
     oGridModel.RowBackgroundColors = colorArray
 
     renderInfoLabel(dialog, newTemplateInfo)
-    with open(TCenterConf.getDiffInfoPath(), "w") as outFile:
+    with open(TRepoConf.getDiffInfoPath(), "w") as outFile:
         json.dump(diffJson, outFile)
+    return True
     
-
-def isDiffEmpty():
-    diffJson={}
-    with open(TCenterConf.getDiffInfoPath(), "r") as jsonFile:
-        diffJson = json.load(jsonFile)
-    if diffJson:
+def checkConnection():
+    try:
+        url = TRepoConf.getAPIAddress_List()
+        res = urllib.request.urlopen(url, timeout=2)
+        res = None
+    except:
+        message = "無法連線至伺服器\n\n請確認伺服器設定或網路連線\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
+        Msgbox(message)
         return False
-    else:
-        return True
+    return True
+
+def isDiffExist():
+    diffJson={}
+    try:
+        with open(TRepoConf.getDiffInfoPath(), "r") as jsonFile:
+            diffJson = json.load(jsonFile)
+    except:
+        return False
+    return True
 
 def syncTemplates(sDialog):
     """
     Download the diff file from remote and extract
     """
     # 二次確認
-    if isDiffEmpty():
-        Msgbox("目前已同步至最新的版本。")
+    if not isDiffExist():
+        Msgbox("請先同步範本資訊。")
         return
+    
     sycnCheckNo()
     createDgSyncCheck()
     if not readSycnCheck():
         return 
 
-    projectDataPath = TCenterConf.getProjectDataPath()
+    projectDataPath = TRepoConf.getProjectDataPath()
     try:
         os.remove(projectDataPath + "error_urlopen.json")
     except:
@@ -170,15 +182,19 @@ def syncTemplates(sDialog):
         jsonData = {}
         headers={'Content-Type':'application/json'}
         
-        with open(TCenterConf.getDiffInfoPath(), "r") as outFile:
+        with open(TRepoConf.getDiffInfoPath(), "r") as outFile:
             jsonData = json.load(outFile)
+
         bindata = json.dumps(jsonData)
         bindata = bindata.encode('utf-8')
         try:
-            req = urllib.request.Request(TCenterConf.getAPIAddress_Sync(), data=bindata, headers=headers)
+            req = urllib.request.Request(TRepoConf.getAPIAddress_Sync(), data=bindata, headers=headers)
             res = urllib.request.urlopen(req, timeout=3)
+            if not jsonData:
+                Msgbox("已同步至最新版本。")
+                return
         except:
-            message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TCenterConf.getServerAddress()
+            message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
             Msgbox(message)
             return
         
@@ -189,19 +205,19 @@ def syncTemplates(sDialog):
         # 解壓縮檔案到使用者端的 Templates
         import zipfile
         zf = zipfile.ZipFile(projectDataPath + "sync.zip")
-        zf.extractall(TCenterConf.getUserTemplatePath())
+        zf.extractall(TRepoConf.getUserTemplatePath())
         emptyDiff()
         try:
-            url = TCenterConf.getAPIAddress_List()
+            url = TRepoConf.getAPIAddress_List()
             res = urllib.request.urlopen(url, timeout=60)
             jsonData = json.loads(res.read().decode())
-            with open(TCenterConf.getTemplateInfoPath(), "w") as outFile:
+            with open(TRepoConf.getTemplateInfoPath(), "w") as outFile:
                 json.dump(jsonData, outFile)
             renderSyncResult(dialog, jsonData)
             renderInfoLabel(dialog, jsonData)
             Msgbox("同步完成")
         except:
-            message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TCenterConf.getServerAddress()
+            message = "網路連線發生問題，請確認網路連線\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
             Msgbox(message)
             return
         
@@ -237,7 +253,7 @@ def renderSyncResult(dialog, jsonData):
     oGridModel.RowBackgroundColors = colorArray
 
 def emptyDiff():
-    with open(TCenterConf.getDiffInfoPath(), "w") as outFile:
+    with open(TRepoConf.getDiffInfoPath(), "w") as outFile:
         json.dump({}, outFile)
         outFile.close()
 
