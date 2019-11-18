@@ -15,7 +15,9 @@
     <display-name>
         <name lang="zh-tw">機關範本中心</name>
     </display-name>
-    
+    <icon>
+		<default xlink:href="images/templist_icon.png"/>
+	</icon>
     <extension-description>
         <src lang="zh-tw" xlink:href="descriptions/desc.zh-tw"/>
     </extension-description>
