@@ -18,6 +18,7 @@ import TemplateRepoConf as TRepoConf
 from urllib import request
 import urllib
 import json
+import os
 
 
 def createGrid(dialog):
@@ -86,4 +87,9 @@ g_ImplementationHelper = unohelper.ImplementationHelper()
 g_ImplementationHelper.addImplementation(
     TemplateRepo, IMPLE_NAME, (IMPLE_NAME,),)
 
-
+#from shutil import copy2
+# 如果有需要安裝時執行的程式碼可以放在這裡
+#targetPath = r"C:\\Users\\Tommy\\AppData\\Roaming\\NDCODFApplicationTools\\6\\user\\template\\tmp"
+#dataPath = TRepoConf.getProjectDataPath()+"test.ott"
+#os.makedirs(targetPath, exist_ok=True)
+#copy2(dataPath, targetPath)
