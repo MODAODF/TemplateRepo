@@ -3,11 +3,7 @@
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
 
 
-REM *****
-REM **main op: 顯示延伸套件(公務文件範本)
-REM *****
-function doNDCCollection()
-REM **msgbox "請先安裝延伸套件(公務文件範本)!"
+function doCollection()
 	dim document   as object
 	dim dispatcher as object
 	dispatcher = createUnoService("com.sun.star.frame.DispatchHelper")
@@ -15,5 +11,14 @@ REM **msgbox "請先安裝延伸套件(公務文件範本)!"
 	dispatcher.executeDispatch(Stardesktop, ".uno:NewDoc", "", 0, Array())
 end function
 
+function pyTemplateRepo()
+	dim obj, arg
 
+	obj = createunoservice("org.oxoffice.comp.pyuno.templaterepo")
+	if not isNull(obj) then
+		obj.execute(array())
+	else
+		Msgbox("未知錯誤")
+	EndIf
+end function
 </script:module>

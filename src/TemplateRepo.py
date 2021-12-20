@@ -12,13 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+from com.sun.star.task import XJob
 import unohelper
 import TemplateRepoUtility as TRepoUtility
 import TemplateRepoConf as TRepoConf
 from urllib import request
 import urllib
 import json
-import os
+import os,sys
 
 
 def createGrid(dialog):
@@ -61,35 +62,29 @@ def createGrid(dialog):
     oCol.Title = "最後更新時間"
     oColumnModel.addColumn(oCol)
 
-from com.sun.star.task import XJob
+
 class TemplateRepo(unohelper.Base, XJob):
-        def __init__(self, ctx):
-            self.ctx = ctx
+    def __init__(self, ctx):
+        self.ctx = ctx
 
-        def execute(self, args):
-            smgr = self.ctx.getServiceManager()
-            dp = smgr.createInstanceWithContext("com.sun.star.awt.DialogProvider", self.ctx)
+    def execute(self, args):
+        smgr = self.ctx.getServiceManager()
+        dp = smgr.createInstanceWithContext(
+            "com.sun.star.awt.DialogProvider", self.ctx)
 
-            dialog = dp.createDialog(
-                "vnd.sun.star.script:TemplateRepo.TemplateList?location=application")
-            createGrid(dialog)
-            if TRepoUtility.checkDiff(dialog):
-                dialog.setVisible(True)
-                TRepoUtility.syncTemplates(dialog)
+        dialog = dp.createDialog(
+            "vnd.sun.star.script:TemplateRepo.TemplateList?location=application")
+        createGrid(dialog)
+        if TRepoUtility.checkDiff(dialog):
+            dialog.setVisible(True)
+            TRepoUtility.syncTemplates(dialog)
 
-            dialog.execute()
+        dialog.execute()
 
-# Registration
+# Registration for StartBasic Usage
 IMPLE_NAME = "TemplateRepo.Main"
 
 g_ImplementationHelper = unohelper.ImplementationHelper()
 
 g_ImplementationHelper.addImplementation(
     TemplateRepo, IMPLE_NAME, (IMPLE_NAME,),)
-
-#from shutil import copy2
-# 如果有需要安裝時執行的程式碼可以放在這裡
-#targetPath = r"C:\\Users\\Tommy\\AppData\\Roaming\\NDCODFApplicationTools\\6\\user\\template\\tmp"
-#dataPath = TRepoConf.getProjectDataPath()+"test.ott"
-#os.makedirs(targetPath, exist_ok=True)
-#copy2(dataPath, targetPath)

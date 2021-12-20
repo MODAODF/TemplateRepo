@@ -4,7 +4,7 @@ import json
 import ssl
 from urllib import request
 import urllib
-import os, sys
+import os, sys, traceback
 
 def makeReq(url):
     context = ssl._create_unverified_context()
@@ -41,6 +41,14 @@ def write2file(filename, msg):
         for item in msg:
             fp.write(str(item)+"\n")
         fp.close()
+
+def exception_dump(e):
+    file_path = TRepoConf.getProjectDataPath() + "\\error.txt"
+    with open(file_path, "w") as f:
+        f.write(e)
+        traceback.print_exc(file=f)
+        f.write("aaaa")
+        f.close()
 
 def sycnCheckNo():
     jsonData = {}
@@ -191,22 +199,34 @@ def syncTemplates(sDialog):
     try:
 
         jsonData = {}
-        headers={'Content-Type':'application/json'}
-        
         with open(TRepoConf.getDiffInfoPath(), "r", encoding="utf-8") as outFile:
             jsonData = json.load(outFile)
 
+        
         bindata = json.dumps(jsonData)
         bindata = bindata.encode('utf-8')
+        param = {
+            "data": bindata,
+            "mac_addr" : TRepoConf.getMAC()
+        }
         try:
-            req = urllib.request.Request(TRepoConf.getAPIAddress_Sync(), data=bindata, headers=headers)
+            encoded_args = urllib.parse.urlencode(param).encode('utf-8')
+            req = urllib.request.Request(TRepoConf.getAPIAddress_Sync(), encoded_args)
             res = makeReq(req)
             if not jsonData:
                 Msgbox("已同步至最新版本。")
                 return
-        except:
+        except urllib.error.HTTPError as e:
+            exception_dump(str(e.reason))
+            exception_dump(str(e.code))
+            if e.reason == "Not Auth":
+                Msgbox("API 伺服器尚未授權，請聯繫管理人員")
+            return 
+        except Exception as e:
             message = "請確認伺服器設定\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
             Msgbox(message)
+            exception_dump(str(e))
+            exception_dump(str(e))
             return
         
         with open(projectDataPath + "sync.zip", "wb") as zipFile:
@@ -232,9 +252,10 @@ def syncTemplates(sDialog):
             Msgbox(message)
             return
         
-    except:
+    except Exception as e:
         with open(projectDataPath + "error_urlopen.json", "w") as fout:
             fout.write("error\n")
+            fout.write(str(e))
 
 def clearGrid(dialog):
     gridControl = dialog.getControl("ListGrid")

@@ -7,9 +7,6 @@ import os, sys
 import uno,unohelper
 import ssl
 
-
-
-
 def checkDiff(*args, **kwargs):
     theSource = args[0].Source
     dialog = theSource.getContext()
@@ -81,3 +78,8 @@ def sycnCheckYes(*args, **kwargs):
         json.dump(jsonData, syncCheckResult)
     dialog.endExecute()
 
+
+
+def getMACButton(*args, **kwargs):
+    mac_addr = TRepoConf.getMAC()
+    TRepoUtility.Msgbox(mac_addr)

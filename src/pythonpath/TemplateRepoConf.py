@@ -1,18 +1,22 @@
 import sys
 import os
 import json
+import uuid, re
 InfoFile = r"templatesInfo.json"
 DiffFile = r"diffInfo.json"
 ServerSettingFile = r"server.json"
 syncCheckResultPath = r"sync_check.json"
 ProjectName = "TemplateRepo"
 
+def getMAC():
+    mac_addr = ''.join(re.findall('..', '%012x' % uuid.getnode()))
+    return mac_addr.upper()
 
 def getProjectRootPath():
     global ProjectName
     outPath = ""
     for path in sys.path:
-        if ProjectName in path and "oxt" in path:
+        if ProjectName in path:
             outPath = path
             break
     pathToken = outPath.split('\\')
@@ -20,7 +24,7 @@ def getProjectRootPath():
     for token in pathToken:
         outPath += token
         outPath += "\\"
-        if ProjectName in token:
+        if ProjectName in token and 'oxt' in token:
             break
     return outPath
 
@@ -48,12 +52,6 @@ def getAPIAddress_List():
     return apiAddress
 
 
-def getAPIAddress_download():
-    baseAddress = getServerAddress()
-    apiAddress = baseAddress + 'lool/templaterepo/download'
-    return apiAddress
-
-
 def getAPIAddress_Sync():
     baseAddress = getServerAddress()
     apiAddress = baseAddress + 'lool/templaterepo/sync'
@@ -66,7 +64,11 @@ def getProjectImagesPath():
 
 
 def getProjectDataPath():
-    outPath = getProjectRootPath() + "runTimeData\\"
+    appDataDir = os.getenv('APPDATA')
+    outPath = appDataDir + "\\TemplateRepo\\runTimeData\\"
+    if not os.path.exists(outPath):
+        os.makedirs(outPath)
+
     return outPath
 
 
@@ -88,17 +90,12 @@ def getDiffInfoPath():
 
 
 def getUserTemplatePath():
-    global ProjectName
-    outPath = ""
-    for path in sys.path:
-        if ProjectName in path:
-            outPath = path
-            break
-
-    outPath = outPath.split("uno_packages")[0] + "template\\"
-    if not os.path.exists(outPath):
-        os.mkdir(outPath)
-    return outPath
+    appDataDir = os.getenv('APPDATA')
+    templatePath = appDataDir + "\\NDCODFApplicationTools\\6\\user\\template\\"
+    
+    if not os.path.exists(templatePath):
+        os.makedirs(templatePath)
+    return templatePath
 
 
 def getSyncCheckResult():
