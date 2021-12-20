@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="Setting" dlg:left="146" dlg:top="66" dlg:width="204" dlg:height="176" dlg:help-text="&amp;76.Setting.HelpText" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;77.Setting.Title">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="Setting" dlg:left="100" dlg:top="100" dlg:width="138" dlg:height="144" dlg:help-text="&amp;76.Setting.HelpText" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;77.Setting.Title">
+ <dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:background-color="0xdddddd"/>
+ </dlg:styles>
  <dlg:bulletinboard>
-  <dlg:textfield dlg:id="ServerAddress" dlg:tab-index="0" dlg:left="43" dlg:top="12" dlg:width="80" dlg:height="14" dlg:help-text="&amp;78.Setting.ServerAddress.HelpText" dlg:value="&amp;79.Setting.ServerAddress.Text"/>
-  <dlg:text dlg:id="Server" dlg:tab-index="1" dlg:left="4" dlg:top="12" dlg:width="30" dlg:height="14" dlg:help-text="&amp;80.Setting.Server.HelpText" dlg:value="&amp;81.Setting.Server.Label" dlg:align="center" dlg:valign="center"/>
-  <dlg:text dlg:id="PortLLabel" dlg:tab-index="2" dlg:left="4" dlg:top="38" dlg:width="30" dlg:height="14" dlg:help-text="&amp;82.Setting.PortLLabel.HelpText" dlg:value="&amp;83.Setting.PortLLabel.Label" dlg:align="center" dlg:valign="center"/>
-  <dlg:textfield dlg:id="Port" dlg:tab-index="3" dlg:left="43" dlg:top="38" dlg:width="80" dlg:height="14" dlg:help-text="&amp;84.Setting.Port.HelpText" dlg:value="&amp;85.Setting.Port.Text"/>
-  <dlg:button dlg:id="Save" dlg:tab-index="4" dlg:left="123" dlg:top="152" dlg:width="31" dlg:height="14" dlg:help-text="&amp;86.Setting.Save.HelpText" dlg:value="&amp;87.Setting.Save.Label">
+  <dlg:textfield dlg:id="ServerAddress" dlg:tab-index="0" dlg:left="49" dlg:top="12" dlg:width="80" dlg:height="14" dlg:help-text="&amp;78.Setting.ServerAddress.HelpText" dlg:value="&amp;79.Setting.ServerAddress.Text"/>
+  <dlg:text dlg:id="Server" dlg:tab-index="1" dlg:left="10" dlg:top="12" dlg:width="30" dlg:height="14" dlg:help-text="&amp;80.Setting.Server.HelpText" dlg:value="&amp;81.Setting.Server.Label" dlg:valign="center"/>
+  <dlg:text dlg:id="PortLLabel" dlg:tab-index="2" dlg:left="10" dlg:top="38" dlg:width="30" dlg:height="14" dlg:help-text="&amp;82.Setting.PortLLabel.HelpText" dlg:value="&amp;83.Setting.PortLLabel.Label" dlg:valign="center"/>
+  <dlg:textfield dlg:id="Port" dlg:tab-index="3" dlg:left="49" dlg:top="38" dlg:width="80" dlg:height="14" dlg:help-text="&amp;84.Setting.Port.HelpText" dlg:value="&amp;85.Setting.Port.Text"/>
+  <dlg:button dlg:id="Save" dlg:tab-index="4" dlg:left="21" dlg:top="121" dlg:width="40" dlg:height="16" dlg:help-text="&amp;86.Setting.Save.HelpText" dlg:value="&amp;87.Setting.Save.Label">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:TemplateRepo.oxt|python|scripts|api_utils.py$saveServerSetting?language=Python&amp;location=user:uno_packages" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="Cancel" dlg:tab-index="5" dlg:left="161" dlg:top="152" dlg:width="31" dlg:height="14" dlg:help-text="&amp;88.Setting.Cancel.HelpText" dlg:value="&amp;89.Setting.Cancel.Label" dlg:button-type="cancel"/>
-  <dlg:text dlg:id="Label1" dlg:tab-index="6" dlg:left="4" dlg:top="65" dlg:width="30" dlg:height="14" dlg:help-text="&amp;90.Setting.Label1.HelpText" dlg:value="&amp;91.Setting.Label1.Label" dlg:align="center" dlg:valign="center"/>
+  <dlg:button dlg:id="Cancel" dlg:tab-index="5" dlg:left="76" dlg:top="121" dlg:width="43" dlg:height="16" dlg:help-text="&amp;88.Setting.Cancel.HelpText" dlg:value="&amp;89.Setting.Cancel.Label" dlg:button-type="cancel"/>
+  <dlg:text dlg:id="Label1" dlg:tab-index="6" dlg:left="10" dlg:top="65" dlg:width="30" dlg:height="14" dlg:help-text="&amp;90.Setting.Label1.HelpText" dlg:value="&amp;91.Setting.Label1.Label" dlg:valign="center"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="HTTP" dlg:tab-index="7" dlg:left="43" dlg:top="65" dlg:width="32" dlg:height="14" dlg:help-text="&amp;92.Setting.HTTP.HelpText" dlg:value="&amp;93.Setting.HTTP.Label" dlg:align="center" dlg:valign="center"/>
-   <dlg:radio dlg:id="HTTPS" dlg:tab-index="8" dlg:left="87" dlg:top="65" dlg:width="32" dlg:height="14" dlg:help-text="&amp;94.Setting.HTTPS.HelpText" dlg:value="&amp;95.Setting.HTTPS.Label" dlg:align="center" dlg:valign="center"/>
+   <dlg:radio dlg:id="HTTP" dlg:tab-index="7" dlg:left="49" dlg:top="65" dlg:width="32" dlg:height="14" dlg:help-text="&amp;92.Setting.HTTP.HelpText" dlg:value="&amp;93.Setting.HTTP.Label" dlg:align="center" dlg:valign="center"/>
+   <dlg:radio dlg:id="HTTPS" dlg:tab-index="8" dlg:left="93" dlg:top="65" dlg:width="32" dlg:height="14" dlg:help-text="&amp;94.Setting.HTTPS.HelpText" dlg:value="&amp;95.Setting.HTTPS.Label" dlg:align="center" dlg:valign="center"/>
   </dlg:radiogroup>
+  <dlg:text dlg:id="Label2" dlg:tab-index="9" dlg:left="10" dlg:top="98" dlg:width="34" dlg:height="14" dlg:help-text="&amp;160.Setting.Label2.HelpText" dlg:value="MacAddr :" dlg:valign="center"/>
+  <dlg:text dlg:id="Label3" dlg:tab-index="10" dlg:left="10" dlg:top="85" dlg:width="84" dlg:height="12" dlg:help-text="&amp;162.Setting.Label3.HelpText" dlg:value="&amp;163.Setting.Label3.Label" dlg:valign="center"/>
+  <dlg:textfield dlg:style-id="0" dlg:id="MacAddress" dlg:tab-index="11" dlg:left="49" dlg:top="98" dlg:width="80" dlg:height="14" dlg:help-text="&amp;166.Setting.MacAddress.HelpText" dlg:align="center" dlg:readonly="true" dlg:value="&amp;167.Setting.MacAddress.Text"/>
  </dlg:bulletinboard>
 </dlg:window>

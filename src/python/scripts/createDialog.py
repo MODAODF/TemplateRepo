@@ -1,7 +1,11 @@
 import uno
 import TemplateRepoConf as TRepoConf
 import json
+import uuid
 templateDialog = None
+
+def get_mac_address():
+    return TRepoConf.getMAC()
 
 def createDgConfig(*args, **kwargs):
     ctx = uno.getComponentContext()
@@ -41,6 +45,8 @@ def createDgSetting(*args, **kwargs):
         port = dialog.getControl("Port").Model
         httpCheck = dialog.getControl("HTTP")
         httpsCheck = dialog.getControl("HTTPS")
+        macaddr = dialog.getControl("MacAddress")
+        macaddr.setText(get_mac_address())
 
         ipAddr.Text = jsonData['ServerAddress']
         port.Text = jsonData['Port']
@@ -56,5 +62,7 @@ def createDgSetting(*args, **kwargs):
         httpMethod = dialog.getControl("HTTP")
         ipAddr.Text = "127.0.0.1"
         port.Text = "22"
+        macaddr = dialog.getControl("MacAddress")
+        macaddr.setText(get_mac_address())
         httpMethod.State = True
     dialog.execute()

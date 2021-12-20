@@ -9,7 +9,7 @@ syncCheckResultPath = r"sync_check.json"
 ProjectName = "TemplateRepo"
 
 def getMAC():
-    mac_addr = ''.join(re.findall('..', '%012x' % uuid.getnode()))
+    mac_addr = '-'.join(re.findall('..', '%012x' % uuid.getnode()))
     return mac_addr.upper()
 
 def getProjectRootPath():
@@ -90,12 +90,17 @@ def getDiffInfoPath():
 
 
 def getUserTemplatePath():
-    appDataDir = os.getenv('APPDATA')
-    templatePath = appDataDir + "\\NDCODFApplicationTools\\6\\user\\template\\"
-    
-    if not os.path.exists(templatePath):
-        os.makedirs(templatePath)
-    return templatePath
+    global ProjectName
+    outPath = ""
+    for path in sys.path:
+        if ProjectName in path:
+            outPath = path
+            break
+
+    outPath = outPath.split("uno_packages")[0] + "template\\"
+    if not os.path.exists(outPath):
+        os.mkdir(outPath)
+    return outPath
 
 
 def getSyncCheckResult():
