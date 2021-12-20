@@ -4,12 +4,16 @@ import json
 import ssl
 from urllib import request
 import urllib
+import os, sys
 
 def makeReq(url):
     context = ssl._create_unverified_context()
     return urllib.request.urlopen(url, timeout=2, context=context)
 
 def Msgbox(Message):
+
+    Message += "\n"
+
     ctx = uno.getComponentContext()    
     smgr = ctx.getServiceManager()
     desktop = smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx )
@@ -17,7 +21,7 @@ def Msgbox(Message):
     oSM = uno.getComponentContext().getServiceManager()
     oToolkit = oSM.createInstance("com.sun.star.awt.Toolkit")
     sTipo = "infobox"
-    sTitulo = "Hint"
+    sTitulo = "提示"
     botones = 1
     if hasattr(oDoc, "getCurrentController"):
         oParentWin = oDoc.getCurrentController().getFrame().getContainerWindow()
@@ -33,7 +37,7 @@ def Msgbox(Message):
     return None
 
 def write2file(filename, msg):
-    with open(TRepoConf.getProjectDataPath() + filename, "w") as fp:
+    with open(TRepoConf.getProjectDataPath() + filename, "w", encoding="utf-8") as fp:
         for item in msg:
             fp.write(str(item)+"\n")
         fp.close()
@@ -41,11 +45,11 @@ def write2file(filename, msg):
 def sycnCheckNo():
     jsonData = {}
     jsonData['sync'] = False
-    with open(TRepoConf.getSyncCheckResult(), "w") as syncCheckResult:
-        json.dump(jsonData, syncCheckResult)
+    with open(TRepoConf.getSyncCheckResult(), "w", encoding="utf-8") as syncCheckResult:
+        json.dump(jsonData, syncCheckResult, ensure_ascii=False)
 
 def readSycnCheck():
-    with open(TRepoConf.getSyncCheckResult(), "r") as syncCheckResult:
+    with open(TRepoConf.getSyncCheckResult(), "r", encoding="utf-8") as syncCheckResult:
         result = json.load(syncCheckResult)
     if result['sync']:
         return True
@@ -60,6 +64,7 @@ def createDgSyncCheck():
     dialog.execute()
 
 def checkDiff(sDialog):
+    syncLocalfile()
     dialog = sDialog
     clearGrid(dialog)
 
@@ -68,7 +73,7 @@ def checkDiff(sDialog):
     oDataModel = oGridModel.GridDataModel
 
     try:
-        with open(TRepoConf.getTemplateInfoPath(), "r") as jsonFile:
+        with open(TRepoConf.getTemplateInfoPath(), "r", encoding="utf-8") as jsonFile:
             oldTemplateInfo = json.load(jsonFile)
     except:
         oldTemplateInfo = {}
@@ -133,8 +138,8 @@ def checkDiff(sDialog):
     oGridModel.RowBackgroundColors = colorArray
 
     renderInfoLabel(dialog, newTemplateInfo)
-    with open(TRepoConf.getDiffInfoPath(), "w") as outFile:
-        json.dump(diffJson, outFile)
+    with open(TRepoConf.getDiffInfoPath(), "w", encoding="utf-8") as outFile:
+        json.dump(diffJson, outFile, ensure_ascii=False)
     return True
     
 def checkConnection():
@@ -151,7 +156,7 @@ def checkConnection():
 def isDiffExist():
     diffJson={}
     try:
-        with open(TRepoConf.getDiffInfoPath(), "r") as jsonFile:
+        with open(TRepoConf.getDiffInfoPath(), "r", encoding="utf-8") as jsonFile:
             diffJson = json.load(jsonFile)
     except:
         return False
@@ -161,6 +166,7 @@ def syncTemplates(sDialog):
     """
     Download the diff file from remote and extract
     """
+    syncLocalfile()
     # 二次確認
     if not isDiffExist():
         Msgbox("請先同步範本資訊。")
@@ -187,7 +193,7 @@ def syncTemplates(sDialog):
         jsonData = {}
         headers={'Content-Type':'application/json'}
         
-        with open(TRepoConf.getDiffInfoPath(), "r") as outFile:
+        with open(TRepoConf.getDiffInfoPath(), "r", encoding="utf-8") as outFile:
             jsonData = json.load(outFile)
 
         bindata = json.dumps(jsonData)
@@ -216,13 +222,13 @@ def syncTemplates(sDialog):
             url = TRepoConf.getAPIAddress_List()
             res = makeReq(url)
             jsonData = json.loads(res.read().decode())
-            with open(TRepoConf.getTemplateInfoPath(), "w") as outFile:
-                json.dump(jsonData, outFile)
+            with open(TRepoConf.getTemplateInfoPath(), "w", encoding="utf-8") as outFile:
+                json.dump(jsonData, outFile, ensure_ascii=False)
             renderSyncResult(dialog, jsonData)
             renderInfoLabel(dialog, jsonData)
-            Msgbox("同步完成")
+            Msgbox("同步完成。\n\n更新的範本會於重新啟動以後載入，謝謝您。\n")
         except:
-            message = "網路連線發生問題，請確認網路連線\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress()
+            message = "網路連線發生問題，請確認網路連線\n\n當前伺服器位置設定\n\n" + TRepoConf.getServerAddress() 
             Msgbox(message)
             return
         
@@ -258,8 +264,8 @@ def renderSyncResult(dialog, jsonData):
     oGridModel.RowBackgroundColors = colorArray
 
 def emptyDiff():
-    with open(TRepoConf.getDiffInfoPath(), "w") as outFile:
-        json.dump({}, outFile)
+    with open(TRepoConf.getDiffInfoPath(), "w", encoding="utf-8") as outFile:
+        json.dump({}, outFile, ensure_ascii=False)
         outFile.close()
 
 def renderInfoLabel(dialog, jsonData):
@@ -294,3 +300,26 @@ def renderInfoLabel(dialog, jsonData):
     ODSLabel.Model.Text = str(ODSCount)
     ODPLabel.Model.Text = str(ODPCount)
     NewLabel.Model.Text = str(NewCount)
+
+
+def syncLocalfile():
+    try:
+        with open(TRepoConf.getTemplateInfoPath(), "r", encoding="utf-8") as jsonFile:
+            currentTemplateInfo = json.load(jsonFile)
+    except:
+        currentTemplateInfo = {}
+    realTemplateInfo = {}
+    templPath = TRepoConf.getUserTemplatePath()
+    for cate in currentTemplateInfo:
+        for localfile in currentTemplateInfo[cate]:
+            filepath = "%s%s\\%s.%s" % (templPath, cate, localfile['docname'], localfile['extname'])
+            if os.path.exists(filepath):
+                if cate in realTemplateInfo:
+                    realTemplateInfo[cate].append(localfile)
+                else:
+                    realTemplateInfo[cate] = []
+                    realTemplateInfo[cate].append(localfile)
+    with open(TRepoConf.getTemplateInfoPath(), "w", encoding="utf-8") as jsonFile:
+        json.dump(realTemplateInfo, jsonFile, ensure_ascii=False)
+            
+
