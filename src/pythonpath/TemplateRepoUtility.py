@@ -6,6 +6,11 @@ from urllib import request
 import urllib
 import os, sys, traceback
 
+# Fix: http.client.HTTPException:
+# got more than 100 headers when using bulk from python elasticsearch API
+import http.client
+http.client._MAXHEADERS = 1000
+
 def makeReq(url):
     context = ssl._create_unverified_context()
     return urllib.request.urlopen(url, timeout=2, context=context)
