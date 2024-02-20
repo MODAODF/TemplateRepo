@@ -64,8 +64,18 @@ def getProjectImagesPath():
 
 
 def getProjectDataPath():
-    appDataDir = os.getenv('APPDATA')
-    outPath = appDataDir + "\\TemplateRepo\\runTimeData\\"
+    if sys.platform.startswith('linux'):
+        home = os.getenv('HOME');
+        outPath = home + "/.config/TemplateRepo/runTimeData/"
+    elif sys.platform.startswith('win'):
+        appDataDir = os.getenv('APPDATA')
+        outPath = appDataDir + "\\TemplateRepo\\runTimeData\\"
+    elif sys.platform.startswith('darwin'):
+        home = os.getenv('HOME');
+        outPath = home + "/Library/Application Support/TemplateRepo/runTimeData/"
+    else:
+        print ("unsupported OS\n")
+
     if not os.path.exists(outPath):
         os.makedirs(outPath)
 
